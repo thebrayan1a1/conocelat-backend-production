@@ -12,6 +12,8 @@ public interface BookingService {
 
     public Booking getBookingById(Long id);
 
+    public Booking updateBooking(Booking booking);
+
     public void deleteBooking(Long id);
 
     public List<Booking> findBookingsByDate(Date checkIn, Date checkOut);

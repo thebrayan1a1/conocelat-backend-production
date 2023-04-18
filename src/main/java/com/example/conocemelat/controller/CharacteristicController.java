@@ -46,4 +46,31 @@ public class CharacteristicController {
         return response;
     }
 
+    @PutMapping("/update")
+    @PermitAll
+    public ResponseEntity<Characteristic> updateCharacteristic(@RequestBody Characteristic characteristic){
+        ResponseEntity<Characteristic> response;
+        if (characteristic.getIdCharacteristic() != null && characteristicService.getCharacteristicById(characteristic.getIdCharacteristic()) != null){
+            response = ResponseEntity.ok(characteristicService.saveCharacteristic(characteristic));
+        }else
+        {
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return response;
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @PermitAll
+    public ResponseEntity<Characteristic> deleteCharacteristic(@PathVariable Integer id){
+        ResponseEntity<Characteristic> response;
+        if (characteristicService.getCharacteristicById(Long.valueOf(id))!=null){
+            characteristicService.deleteCharacteristic(Long.valueOf(id));
+            response = ResponseEntity.ok().build();
+        }else
+        {
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return response;
+    }
+    
 }

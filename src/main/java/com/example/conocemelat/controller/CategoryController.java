@@ -44,4 +44,32 @@ public class CategoryController {
 
         return response;
     }
+
+    @PutMapping("/update")
+    @PermitAll
+    public ResponseEntity<Category> updateCategory(@RequestBody Category category){
+        ResponseEntity<Category> response;
+        if (category.getIdCategory() != null && categoryService.getCategoryById(category.getIdCategory()) != null){
+            response = ResponseEntity.ok(categoryService.saveCategory(category));
+        }else
+        {
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return response;
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @PermitAll
+    public ResponseEntity<Category> deleteCategory(@PathVariable Integer id){
+        ResponseEntity<Category> response;
+        if (categoryService.getCategoryById(Long.valueOf(id)) != null){
+            categoryService.deleteCategory(Long.valueOf(id));
+            response = ResponseEntity.ok().build();
+        }else
+        {
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return response;
+    }
+    
 }

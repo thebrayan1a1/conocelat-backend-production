@@ -1,7 +1,6 @@
 package com.example.conocemelat.controller;
 
 import com.example.conocemelat.model.City;
-import com.example.conocemelat.model.Product;
 import com.example.conocemelat.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -59,5 +58,17 @@ public class CityController {
         return response;
     }
 
-
+    @DeleteMapping("/delete/{id}")
+    @PermitAll
+    public ResponseEntity<City> deleteCity(@PathVariable Integer id){
+        ResponseEntity<City> response;
+        if (cityService.getCityById(Long.valueOf(id)) != null){
+            cityService.deleteCity(Long.valueOf(id));
+            response = ResponseEntity.ok().build();
+        }else{
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return response;
+    }
+    
 }

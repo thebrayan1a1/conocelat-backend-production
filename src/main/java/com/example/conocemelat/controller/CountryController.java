@@ -46,4 +46,29 @@ public class CountryController {
         return response;
     }
 
+    @PutMapping("/update")
+    @PermitAll
+    public ResponseEntity<Country> updateCountry(@RequestBody Country country){
+        ResponseEntity<Country> response;
+        if (country.getIdCountry() != null && countryService.getCountryById(country.getIdCountry()) != null){
+            response = ResponseEntity.ok(countryService.saveCountry(country));
+        }else{
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return response;
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @PermitAll
+    public ResponseEntity<Country> deleteCountry(@PathVariable Integer id){
+        ResponseEntity<Country> response;
+        if (countryService.getCountryById(Long.valueOf(id)) != null){
+            countryService.deleteCountry(Long.valueOf(id));
+            response = ResponseEntity.ok().build();
+        }else{
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return response;
+    }
+    
 }
